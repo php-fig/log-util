@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Psr\Log\Test;
+namespace Psr\Log\Util\Tests;
 
 
 use PHPUnit\Framework\TestCase;

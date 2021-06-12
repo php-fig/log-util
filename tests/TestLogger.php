@@ -1,6 +1,6 @@
 <?php
 
-namespace Psr\Log\Test;
+namespace Psr\Log\Util\Tests;
 
 use Psr\Log\AbstractLogger;
 
