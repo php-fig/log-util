@@ -20,7 +20,7 @@ class TestLoggerTest extends LoggerInterfaceTest
      */
     protected function createSubject()
     {
-        $mock = $this->getMockBuilder('Psr\Log\Util\Tests\Stub\TestLogger')
+        $mock = $this->getMockBuilder('Psr\\Log\\Util\\Tests\\Stub\\TestLogger')
             ->enableProxyingToOriginalMethods()
             ->getMock();
 
