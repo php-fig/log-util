@@ -64,11 +64,12 @@ abstract class LoggerInterfaceTest extends AbstractTestCase
         );
     }
 
+    /**
+     * @expectedException \Psr\Log\InvalidArgumentException
+     */
     public function testThrowsOnInvalidLevel()
     {
         $logger = $this->getLogger();
-
-        $this->expectException(InvalidArgumentException::class);
         $logger->log('invalid level', 'Foo');
     }
 
