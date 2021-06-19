@@ -59,20 +59,20 @@ class TestLogger extends AbstractLogger
     /**
      * @var array
      */
-    public $records = [];
+    public $records = array();
 
-    public $recordsByLevel = [];
+    public $recordsByLevel = array();
 
     /**
      * @inheritdoc
      */
-    public function log($level, $message, array $context = [])
+    public function log($level, $message, array $context = array())
     {
-        $record = [
+        $record = array(
             'level' => $level,
             'message' => $message,
             'context' => $context,
-        ];
+        );
 
         $this->recordsByLevel[$record['level']][] = $record;
         $this->records[] = $record;
@@ -86,7 +86,7 @@ class TestLogger extends AbstractLogger
     public function hasRecord($record, $level)
     {
         if (is_string($record)) {
-            $record = ['message' => $record];
+            $record = array('message' => $record);
         }
         return $this->hasRecordThatPasses(function ($rec) use ($record) {
             if ($rec['message'] !== $record['message']) {
@@ -133,7 +133,7 @@ class TestLogger extends AbstractLogger
             $level = strtolower($matches[2]);
             if (method_exists($this, $genericMethod)) {
                 $args[] = $level;
-                return call_user_func_array([$this, $genericMethod], $args);
+                return call_user_func_array(array($this, $genericMethod), $args);
             }
         }
         throw new \BadMethodCallException('Call to undefined method ' . get_class($this) . '::' . $method . '()');
@@ -141,7 +141,7 @@ class TestLogger extends AbstractLogger
 
     public function reset()
     {
-        $this->records = [];
-        $this->recordsByLevel = [];
+        $this->records = array();
+        $this->recordsByLevel = array();
     }
 }
