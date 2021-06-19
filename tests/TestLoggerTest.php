@@ -34,6 +34,11 @@ class TestLoggerTest extends LoggerInterfaceTest
 
     public function getLogs()
     {
-        return $this->logger->records;
+        $records = $this->logger->getRecords();
+        $messages = array_map(function ($record) {
+            return isset($record['message']) ? $record['message'] : null;
+        }, $records);
+
+        return $messages;
     }
 }

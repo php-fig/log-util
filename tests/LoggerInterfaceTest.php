@@ -2,6 +2,7 @@
 
 namespace Psr\Log\Util\Tests;
 
+use DateTimeZone;
 use Psr\Log\LoggerInterface;
 use Psr\Log\LogLevel;
 
@@ -111,7 +112,7 @@ abstract class LoggerInterfaceTest extends AbstractTestCase
             'int' => 0,
             'float' => 0.5,
             'nested' => array('with object' => new DummyTest),
-            'object' => new \DateTime,
+            'object' => new \DateTime('now', new DateTimeZone('+00:00')),
             'resource' => fopen('php://memory', 'r'),
             'closed' => $closed,
         );

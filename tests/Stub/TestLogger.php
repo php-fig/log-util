@@ -3,6 +3,8 @@
 namespace Psr\Log\Util\Tests\Stub;
 
 use Psr\Log\AbstractLogger;
+use Psr\Log\InvalidArgumentException;
+use ReflectionClass;
 
 /**
  * Used for testing purposes.
@@ -68,14 +70,51 @@ class TestLogger extends AbstractLogger
      */
     public function log($level, $message, array $context = array())
     {
+        if (!in_array($level, $this->getLogLevels(), true)) {
+            throw new InvalidArgumentException(sprintf('Log level "%1$s" is not valid', $level));
+        }
+
         $record = array(
             'level' => $level,
-            'message' => $message,
+            'message' => $this->formatMessage($message, $level, $context),
             'context' => $context,
         );
 
         $this->recordsByLevel[$record['level']][] = $record;
         $this->records[] = $record;
+    }
+
+    public function interpolateContext($message, array $context)
+    {
+        return preg_replace_callback('!\{([^\}\s]*)\}!', function ($matches) use ($context) {
+            $key = isset($matches[1]) ? $matches[1] : null;
+            if (array_key_exists($key, $context)) {
+                return $context[$key];
+            }
+
+            return $matches[0];
+        }, $message);
+    }
+
+    public function formatMessage($message, $level, array $context)
+    {
+        $message = $this->interpolateContext($message, $context);
+        $message = "$level $message";
+
+        return $message;
+    }
+
+    public function getLogLevels()
+    {
+        $reflection = new ReflectionClass('Psr\Log\LogLevel');
+        $constants = $reflection->getConstants();
+
+        return $constants;
+    }
+
+    public function getRecords()
+    {
+        return $this->records;
     }
 
     public function hasRecords($level)
