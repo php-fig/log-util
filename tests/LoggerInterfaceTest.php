@@ -45,8 +45,8 @@ abstract class LoggerInterfaceTest extends AbstractTestCase
         $logger->log($level, $message, array('user' => 'Bob'));
 
         $expected = array(
-            $level.' message of level '.$level.' with context: Bob',
-            $level.' message of level '.$level.' with context: Bob',
+            "$level message of level $level with context: Bob",
+            "$level message of level $level with context: Bob",
         );
         $this->assertEquals($expected, $this->getLogs());
     }
