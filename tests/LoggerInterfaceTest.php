@@ -132,7 +132,7 @@ abstract class LoggerInterfaceTest extends AbstractTestCase
     }
 
     /**
-     * Creates a mock of a `Stringable`
+     * Creates a mock of a `Stringable`.
      *
      * @param string $string The string that must be represented by the stringable.
      * @return \PHPUnit_Framework_MockObject_MockObject A mock of an object that has a `__toString()` method.
