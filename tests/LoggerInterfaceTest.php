@@ -107,7 +107,7 @@ abstract class LoggerInterfaceTest extends AbstractTestCase
             'int' => 0,
             'float' => 0.5,
             'nested' => array('with object' => $this->createStringable()),
-            'object' => new \DateTime('now', new DateTimeZone('+00:00')),
+            'object' => new \DateTime('now', new DateTimeZone('Europe/London')),
             'resource' => fopen('php://memory', 'r'),
             'closed' => $closed,
         );
