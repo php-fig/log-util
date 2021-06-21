@@ -152,7 +152,15 @@ class TestLogger extends AbstractLogger
         }, $level);
     }
 
-    public function hasRecordThatPasses(callable $predicate, $level)
+    /**
+     * Determines whether the logger has logged matching records of the specified level.
+     *
+     * @param callable(array{level: \Psr\Log\LogLevel::*, message: string, context: array<mixed>}, int): bool $predicate
+     *  The function used to evaluate whether a record matches.
+     * @param \Psr\Log\LogLevel::* $level The level of the record
+     * @return bool True if a matching record has been logged; false otherwise.
+     */
+    public function hasRecordThatPasses($predicate, $level)
     {
         if (!isset($this->recordsByLevel[$level])) {
             return false;
