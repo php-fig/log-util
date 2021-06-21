@@ -5,7 +5,6 @@ namespace Psr\Log\Util\Tests;
 use DateTimeZone;
 use Psr\Log\LoggerInterface;
 use Psr\Log\LogLevel;
-use Psr\Log\Util\Tests\Stub\DummyTest;
 
 /**
  * Provides a base test class for ensuring compliance with the LoggerInterface.
@@ -86,18 +85,14 @@ abstract class LoggerInterfaceTest extends AbstractTestCase
 
     public function testObjectCastToString()
     {
-        if (method_exists($this, 'createPartialMock')) {
-            $dummy = $this->createPartialMock('Psr\Log\Test\Stub\DummyTest', array('__toString'));
-        } else {
-            $dummy = $this->getMock('Psr\Log\Test\Stub\DummyTest', array('__toString'));
-        }
+        $string = uniqid('DUMMY');
+        $dummy = $this->createStringable($string);
         $dummy->expects($this->once())
-            ->method('__toString')
-            ->will($this->returnValue('DUMMY'));
+            ->method('__toString');
 
         $this->getLogger()->warning($dummy);
 
-        $expected = array('warning DUMMY');
+        $expected = array("warning $string");
         $this->assertEquals($expected, $this->getLogs());
     }
 
@@ -112,7 +107,7 @@ abstract class LoggerInterfaceTest extends AbstractTestCase
             'string' => 'Foo',
             'int' => 0,
             'float' => 0.5,
-            'nested' => array('with object' => new DummyTest),
+            'nested' => array('with object' => $this->createStringable()),
             'object' => new \DateTime('now', new DateTimeZone('+00:00')),
             'resource' => fopen('php://memory', 'r'),
             'closed' => $closed,
@@ -135,5 +130,23 @@ abstract class LoggerInterfaceTest extends AbstractTestCase
             'critical Uncaught Exception!'
         );
         $this->assertEquals($expected, $this->getLogs());
+    }
+
+    /**
+     * Creates a mock of a `Stringable`
+     *
+     * @param string $string The string that must be represented by the stringable.
+     * @return \PHPUnit_Framework_MockObject_MockObject A mock of an object that has a `__toString()` method.
+     */
+    protected function createStringable($string = '')
+    {
+        $mock = $this->getMockBuilder('Stringable')
+            ->setMethods(array('__toString'))
+            ->getMock();
+
+        $mock->method('__toString')
+            ->will($this->returnValue($string));
+
+        return $mock;
     }
 }
