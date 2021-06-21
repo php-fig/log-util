@@ -2,18 +2,12 @@
 
 namespace Psr\Log\Util\Tests;
 
+use Psr\Log\LoggerInterface;
 use Psr\Log\Util\Tests\Stub\TestLogger;
 
 class TestLoggerTest extends LoggerInterfaceTest
 {
     protected $logger;
-
-    public function setUp()
-    {
-        parent::setUp();
-
-        $this->logger = $this->createSubject();
-    }
 
     /**
      * @return TestLogger A new mock of the test subject.
@@ -29,6 +23,10 @@ class TestLoggerTest extends LoggerInterfaceTest
 
     public function getLogger()
     {
+        if (! $this->logger instanceof LoggerInterface) {
+            $this->logger = $this->createSubject();
+        }
+
         return $this->logger;
     }
 
