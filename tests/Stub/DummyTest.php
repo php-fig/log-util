@@ -1,6 +1,6 @@
 <?php
 
-namespace Psr\Log\Util\Tests;
+namespace Psr\Log\Util\Tests\Stub;
 
 /**
  * This class is internal and does not follow the BC promise.

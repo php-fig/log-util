@@ -5,6 +5,7 @@ namespace Psr\Log\Util\Tests;
 use DateTimeZone;
 use Psr\Log\LoggerInterface;
 use Psr\Log\LogLevel;
+use Psr\Log\Util\Tests\Stub\DummyTest;
 
 /**
  * Provides a base test class for ensuring compliance with the LoggerInterface.
@@ -86,9 +87,9 @@ abstract class LoggerInterfaceTest extends AbstractTestCase
     public function testObjectCastToString()
     {
         if (method_exists($this, 'createPartialMock')) {
-            $dummy = $this->createPartialMock('Psr\Log\Test\DummyTest', array('__toString'));
+            $dummy = $this->createPartialMock('Psr\Log\Test\Stub\DummyTest', array('__toString'));
         } else {
-            $dummy = $this->getMock('Psr\Log\Test\DummyTest', array('__toString'));
+            $dummy = $this->getMock('Psr\Log\Test\Stub\DummyTest', array('__toString'));
         }
         $dummy->expects($this->once())
             ->method('__toString')
