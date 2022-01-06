@@ -8,7 +8,6 @@ use Psr\Log\Test\TestLogger;
 /**
  * Test classes from psr/log 1.1.x
  *
- * @requires PHP 7.4
  * @covers \Psr\Log\Test\TestLogger
  * @covers \Psr\Log\Test\LoggerInterfaceTest
  *
