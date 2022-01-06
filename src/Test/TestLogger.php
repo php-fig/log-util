@@ -56,17 +56,14 @@ use Psr\Log\AbstractLogger;
  */
 class TestLogger extends AbstractLogger
 {
-    /**
-     * @var array
-     */
-    public $records = [];
+    public array $records = [];
 
-    public $recordsByLevel = [];
+    public array $recordsByLevel = [];
 
     /**
      * @inheritdoc
      */
-    public function log($level, $message, array $context = [])
+    public function log($level, string|\Stringable $message, array $context = []): void
     {
         $record = [
             'level' => $level,
