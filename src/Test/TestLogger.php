@@ -2,7 +2,8 @@
 
 namespace Psr\Log\Test;
 
-use Psr\Log\AbstractLogger;
+use Psr\Log\LoggerInterface;
+use Psr\Log\LoggerTrait;
 
 /**
  * Used for testing purposes.
@@ -54,8 +55,10 @@ use Psr\Log\AbstractLogger;
  * @method bool hasInfoThatPasses($message)
  * @method bool hasDebugThatPasses($message)
  */
-class TestLogger extends AbstractLogger
+class TestLogger implements LoggerInterface
 {
+    use LoggerTrait;
+
     public array $records = [];
 
     public array $recordsByLevel = [];
@@ -98,16 +101,12 @@ class TestLogger extends AbstractLogger
 
     public function hasRecordThatContains($message, $level)
     {
-        return $this->hasRecordThatPasses(function ($rec) use ($message) {
-            return strpos($rec['message'], $message) !== false;
-        }, $level);
+        return $this->hasRecordThatPasses(fn ($rec) => str_contains($rec['message'], $message), $level);
     }
 
     public function hasRecordThatMatches($regex, $level)
     {
-        return $this->hasRecordThatPasses(function ($rec) use ($regex) {
-            return preg_match($regex, $rec['message']) > 0;
-        }, $level);
+        return $this->hasRecordThatPasses(fn ($rec) => preg_match($regex, $rec['message']) > 0, $level);
     }
 
     public function hasRecordThatPasses(callable $predicate, $level)
@@ -116,10 +115,11 @@ class TestLogger extends AbstractLogger
             return false;
         }
         foreach ($this->recordsByLevel[$level] as $i => $rec) {
-            if (call_user_func($predicate, $rec, $i)) {
+            if ($predicate($rec, $i)) {
                 return true;
             }
         }
+
         return false;
     }
 

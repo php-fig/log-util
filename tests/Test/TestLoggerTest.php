@@ -71,7 +71,7 @@ class TestLoggerTest extends LoggerInterfaceTest
         $this->assertTrue(call_user_func([$logger, $levelMethod], $record), $levelMethod.' without context');
 
         $record = ['message' => $level.' Message', ['foo' => 'bar']];
-        $this->assertTrue($logger->hasRecord($record, $level),'hasRecord with context');
+        $this->assertTrue($logger->hasRecord($record, $level), 'hasRecord with context');
         $this->assertTrue(call_user_func([$logger, $levelMethod], $record), $levelMethod.' with context');
 
         $this->assertTrue(call_user_func([$logger, $levelMethod.'ThatContains'], 'Message'), $levelMethod.'ThatContains');
